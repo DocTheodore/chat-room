@@ -39,7 +39,7 @@ body { margin: 0; }
     width: fit-content;
     max-width: 95%;
 }
-#messages > li.sender {
+#messages > li.self {
     background-color: #1cd03a;
     margin-left: auto;
 }

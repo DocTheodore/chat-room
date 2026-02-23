@@ -1,11 +1,11 @@
 export interface ServerToClientEvents {
   noArg: () => void;
-  chatMessage: (msg: messageType) => void;
+  chatMessage: (msg: clientMessageType) => void;
   userData: (data: SocketData) => void;
 }
 
 export interface ClientToServerEvents {
-  chatMessage: (msg: messageType) => void;
+  chatMessage: (msg: serverMessageType) => void;
 }
 
 export interface InterServerEvents {
@@ -13,10 +13,18 @@ export interface InterServerEvents {
 }
 
 export interface SocketData {
+    id: number;
     name: string;
+    color: string;
 }
 
-export type messageType = {
+export type clientMessageType = {
+    userId: number;
     name: string;
-    text: string;
+    color: string;
+    content: string;
+}
+export type serverMessageType = {
+    userId: number;
+    content: string;
 }

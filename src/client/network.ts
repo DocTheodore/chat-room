@@ -1,4 +1,4 @@
-import { messageType, SocketData } from "../server/types.js";
+import { clientMessageType, serverMessageType, SocketData } from "../server/types.js";
 import { messages } from "./main.js";
 
 declare const io:any;
@@ -14,10 +14,22 @@ socket.on("userData", (data: SocketData) => {
     console.log("Informações carregadas", socket.data);
 });
 
-socket.on("chatMessage", ({name, text}: messageType) => {
+socket.on("chatMessage", ({userId, name, color, content}: clientMessageType) => {
+
     const item = document.createElement("li");
-    item.textContent = `${name}: ${text}`;
+
+    if(userId !== socket.data.id) {
+        const userTag = document.createElement('span');
+        userTag.style = `color: ${color}`;
+        userTag.innerText = `${name}: `;
+        item.append(userTag);
+    } else {
+        item.classList.add('self');
+    }
+
+    item.append(content);
     messages.append(item);
+
     window.scrollTo({
         top: document.body.scrollHeight,
         left: 0,
@@ -26,10 +38,10 @@ socket.on("chatMessage", ({name, text}: messageType) => {
 });
 
 // Metodos do cliente
-export function sendMessage(text: string) {
+export function sendMessage(content: string) {
     const msg = {
-        name: socket.data.name,
-        text: text
-    }
+        userId: socket.data.id,
+        content: content
+    } as serverMessageType
     socket.emit("chatMessage", msg);
 }

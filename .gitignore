@@ -1,2 +1,5 @@
 node_modules
 dist
+chat.db
+chat.db-shm
+chat.db-wal
